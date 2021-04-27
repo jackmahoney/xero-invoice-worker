@@ -4,11 +4,13 @@
   "description": "Invoice event schema generation",
   "main": "index.js",
   "scripts": {
-    "build": "typescript-json-schema -o=dist/schema.json 'src/*.ts' '*'"
+    "generate-json": "typescript-json-schema -o=dist/schema.json 'src/*.ts' '*'",
+    "generate-csharp": "quicktype --src=dist/schema.json --lang=csharp --out=dist/schema.cs"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "quicktype": "^15.0.260",
     "typescript": "^4.2.4",
     "typescript-json-schema": "^0.50.0"
   }

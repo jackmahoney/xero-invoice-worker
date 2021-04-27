@@ -8,5 +8,4 @@ $(deps):
 	npm install
 
 build: $(deps) $(dist)
-	npm run generate-json
-	npm run generate-csharp
+	npm run build

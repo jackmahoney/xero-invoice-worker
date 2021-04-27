@@ -1,1 +1,6 @@
+.idea
+bin
+events.sql
 obj
+generated
+out
