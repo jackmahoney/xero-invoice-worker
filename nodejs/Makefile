@@ -1,11 +1,10 @@
 deps=node_modules
-dist=dist
+
+run: $(deps)
+	node index.js
 
 $(dist):
 	mkdir -p $(dist)
 
 $(deps):
 	npm install
-
-run: $(deps) $(dist)
-	npm start

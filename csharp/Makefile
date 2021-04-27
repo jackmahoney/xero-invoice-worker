@@ -1,8 +1,10 @@
+FEED_URL=http://localhost:3000/events
+
 deps=obj
 out=out
 
 run: $(deps) $(out)
-	dotnet run -- --feed-url=http://localhost:8080/events --invoice-dir=$(out)
+	dotnet run -- --feed-url=$(FEED_URL) --invoice-dir=$(out)
 	
 $(out):
 	mkdir -p $(out)

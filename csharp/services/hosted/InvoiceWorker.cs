@@ -22,9 +22,10 @@ namespace csharp.services.hosted
             PrintBanner();
             return Task.Factory.StartNew(async () =>
             {
+                Console.WriteLine("Starting long running poll");
                 while (true)
                 {
-                    Console.WriteLine("Starting long running poll");
+                    Console.WriteLine("Running process");
                     cancellationToken.ThrowIfCancellationRequested();
                     await _runner.Process(_options.FeedUrl, _options.InvoiceDirectory);
                     Thread.Sleep(_options.RetryTimeout);

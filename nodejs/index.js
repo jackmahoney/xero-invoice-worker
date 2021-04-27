@@ -4,11 +4,21 @@ const port = 3000
 
 function getPayload() {
     return {
-        items: []
+        items: [
+            {
+                id: 1,
+                type: "INVOICE_DELETED",
+                content: {
+                    invoiceId: "123"
+                },
+                createdDateUtc: "2013-01-20T00:00:00Z"
+            }
+        ]
     }
 }
 
 app.get('/events', (req, res) => {
+    console.info("/events 200")
     res.json(getPayload())
 })
 

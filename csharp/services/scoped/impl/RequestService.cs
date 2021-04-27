@@ -2,19 +2,21 @@
 using System;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using csharp.events;
+using csharp.models;
+using Newtonsoft.Json;
 
 namespace csharp.services.scoped.impl
 {
     public class RequestService : IRequestService
     {
-        public async Task<Events> GetEvents(Uri url)
+        public async Task<EventsResponse> GetEvents(Uri url)
         {
             
             var client = new HttpClient(){ Timeout = TimeSpan.FromMilliseconds(3000)};
-            var streamTask = client.GetStreamAsync(url);
-            return await JsonSerializer.DeserializeAsync<Events>(await streamTask);
+            var json = await client.GetStringAsync(url);
+            return JsonConvert.DeserializeObject<EventsResponse>(json);
         }
     }
 }
