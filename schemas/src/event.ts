@@ -1,9 +1,11 @@
 /**
  * Type definitions for invoice events
  */
-export type Events = {
-    items: Event;
+type Events = {
+    items: InvoiceEvent[];
 }
+
+type InvoiceEvent = InvoiceCreatedEvent | InvoiceUpdatedEvent | InvoiceDeletedEvent;
 
 enum EventType {
     INVOICE_CREATED = "INVOICE_CREATED", 
@@ -43,11 +45,13 @@ type InvoiceDeletedEventContent = {
 type InvoiceCreatedEvent = {
     id: number;
     type: EventType.INVOICE_CREATED;
+    createdDateUtc: string;
 }
 type InvoiceUpdatedEvent = {
     id: number;
     type: EventType.INVOICE_UPDATED;
     content: InvoiceCreatedOrUpdatedEventContent;
+    createdDateUtc: string;
 } 
 type InvoiceDeletedEvent = {
     id: number;
@@ -55,5 +59,3 @@ type InvoiceDeletedEvent = {
     content: InvoiceDeletedEventContent;
     createdDateUtc: string;
 };
-
-type Event = InvoiceCreatedEvent | InvoiceUpdatedEvent | InvoiceDeletedEvent;

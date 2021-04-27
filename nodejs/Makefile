@@ -7,5 +7,5 @@ $(dist):
 $(deps):
 	npm install
 
-build: $(deps) $(dist)
-	npm run build
+run: $(deps) $(dist)
+	npm start

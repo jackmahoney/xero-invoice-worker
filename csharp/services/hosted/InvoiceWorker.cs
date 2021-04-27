@@ -9,16 +9,33 @@ namespace csharp.services.hosted
     public class InvoiceWorker : IHostedService
     {
         private readonly Options _options;
-        private readonly IRequestService _requestService;
+        private readonly IRunner _runner;
 
-        public InvoiceWorker(Options options, IRequestService requestService)
+        public InvoiceWorker(Options options, IRunner runner)
         {
             _options = options;
-            _requestService = requestService;
+            _runner = runner;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken = new CancellationToken())
+        public Task StartAsync(CancellationToken cancellationToken = new())
         {
+            PrintBanner();
+            return Task.Factory.StartNew(async () =>
+            {
+                while (true)
+                {
+                    Console.WriteLine("Starting long running poll");
+                    cancellationToken.ThrowIfCancellationRequested();
+                    await _runner.Process(_options.FeedUrl, _options.InvoiceDirectory);
+                    Thread.Sleep(_options.RetryTimeout);
+                }
+            }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Default);  
+        }
+        
+
+        private void PrintBanner()
+        {
+            
             var banner = new []
             {
                 "-------------------------",
@@ -28,10 +45,9 @@ namespace csharp.services.hosted
                 "-------------------------\n",
             };
             Console.Write(string.Join(Environment.NewLine, banner));
-            return Task.CompletedTask;
         }
 
-        public Task StopAsync(CancellationToken cancellationToken = new CancellationToken())
+        public Task StopAsync(CancellationToken cancellationToken = new())
         {
             throw new NotImplementedException();
         }

@@ -1,20 +1,16 @@
 deps=obj
-generated=generated
 out=out
 
+run: $(deps) $(out)
+	dotnet run -- --feed-url=http://localhost:8080/events --invoice-dir=$(out)
+	
 $(out):
 	mkdir -p $(out)
 
 $(deps):
 	dotnet restore
 
-$(generated):
-	mkdir -p $(generated)
-	cp ../schemas/dist/*.cs $(generated)/
 
-test: $(deps) $(generated) $(out)
+test: $(deps) $(out)
 	dotnet test
 
-run: $(deps) $(generated) $(out)
-	dotnet run -- --feed-url=http://localhost:8080/events --invoice-dir=$(out)
-	

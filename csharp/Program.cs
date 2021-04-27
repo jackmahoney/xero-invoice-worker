@@ -32,6 +32,7 @@ namespace csharp
                 {
                     services.AddSingleton(options);
                     services.AddScoped<IRequestService, RequestService>();
+                    services.AddScoped<IRunner, Runner>();
                     services.AddHostedService<InvoiceWorker>();
                 });
     }
