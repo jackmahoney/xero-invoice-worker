@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Event feed server for invoice worker",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "jest"
   },
+  "engines" : { "node" : ">=14.0.0" },
   "author": "Jack Mahoney",
   "license": "ISC",
   "devDependencies": {

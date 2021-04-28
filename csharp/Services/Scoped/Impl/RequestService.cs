@@ -1,38 +1,40 @@
-
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using csharp.models;
-using Newtonsoft.Json;
-using SixLabors.ImageSharp.Metadata.Profiles.Exif;
+using Microsoft.Extensions.Logging;
 
 namespace csharp.services.scoped.impl
 {
     public class RequestService : IRequestService
     {
         private readonly HttpClient _httpClient;
+        private readonly ILogger<RequestService> _logger;
 
-        public RequestService(HttpClient httpClient)
+        public RequestService(HttpClient httpClient, ILogger<RequestService> logger)
         {
             _httpClient = httpClient;
+            _logger = logger;
         }
         
         public async Task<EventsResponse> GetEvents(Uri url, int pageSize, int? sinceId)
         {
-            var parts = new List<string>
-            {
-                $"pageSize={pageSize}"
-            };
-            if (sinceId != null)
-            {
-                parts.Add($"afterEventId={sinceId}");
-            }
-            var baseUri = new UriBuilder(url) { Query = string.Join("&", parts) };
-            var json = await _httpClient.GetStringAsync(baseUri.ToString());
-            return JsonConvert.DeserializeObject<EventsResponse>(json);
+            // create request parameters 
+            var parts = new List<string> {$"pageSize={pageSize}"};
+            if (sinceId != null) parts.Add($"afterEventId={sinceId}");
+            // create url with params
+            var baseUri = new UriBuilder(url) {Query = string.Join("&", parts)};
+
+            // call url
+            _logger.LogInformation($"Calling {baseUri}");
+            var response = await _httpClient.GetStringAsync(baseUri.ToString());
+
+            // deserialize
+            _logger.LogInformation(response);
+            return JsonSerializer.Deserialize<EventsResponse>(response);
         }
     }
 }

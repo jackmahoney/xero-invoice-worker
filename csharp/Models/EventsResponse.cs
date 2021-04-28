@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace csharp.models
 {
+    [DataContract]
     public enum InvoiceStatus
     {
         [EnumMember(Value = "DRAFT")]
@@ -17,6 +18,7 @@ namespace csharp.models
         Deleted
     }
 
+    [DataContract]
     public enum EventType
     {
         [EnumMember(Value = "INVOICE_CREATED")]
@@ -27,6 +29,7 @@ namespace csharp.models
         InvoiceDeleted
     }
 
+    [DataContract]
     public class LineItem
     {
         [JsonPropertyName("lineItemId")]
@@ -41,6 +44,7 @@ namespace csharp.models
         public decimal LineItemTotalCost { get; set; }
     }
 
+    [DataContract]
     public class InvoiceCreatedOrUpdatedEventContent
     {
         [JsonPropertyName("invoiceId")]
@@ -50,25 +54,29 @@ namespace csharp.models
         [JsonPropertyName("lineItems")]
         public List<LineItem> LineItems { get; set; }
         [JsonPropertyName("status")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public InvoiceStatus Status { get; set; }
         [JsonPropertyName("dueDateUtc")]
-        public string DueDateUtc { get; set; }
+        public DateTime DueDateUtc { get; set; }
         [JsonPropertyName("createdDateUtc")]
         public DateTime CreatedDateUtc { get; set; }
         [JsonPropertyName("updatedDateUtc")]
         public DateTime UpdatedDateUtc { get; set; }
     }
 
+    [DataContract]
     public class InvoiceDeletedEventContent
     {
         [JsonPropertyName("invoiceId")]
         public string InvoiceId { get; set; }
     }
+    [DataContract]
     public class Event
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
         [JsonPropertyName("type")] 
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public EventType Type { get; set; }
         [JsonPropertyName("createdDateUtc")]
         public DateTime CreatedDateUtc { get; set; }
@@ -76,6 +84,7 @@ namespace csharp.models
         public object Content;
     }
 
+    [DataContract]
     public class EventsResponse
     {
         [JsonPropertyName("items")]

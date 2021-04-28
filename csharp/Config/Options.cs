@@ -11,5 +11,9 @@ namespace csharp
              public string InvoiceDirectory { get; set; }
              [Option('r', "retry-timeout", Required = false, Default = 1500, HelpText = "Milliseconds to wait until retry endpoint in polling.")]
              public int RetryTimeout { get; set; }
+             [Option('p', "page-size", Required = false, Default = 10, HelpText = "Number of items to fetch each request to feed url.")]
+             public int PageSize { get; set; }
+             [Option('a', "after-event-id", Required = false, Default = null, HelpText = "Event ID to start after. Useful for resuming a process.")]
+             public int? AfterEventId { get; set; }
          }
 }

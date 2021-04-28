@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using csharp.models;
 using Microsoft.AspNetCore.Html;
+using Microsoft.Extensions.Logging;
 
 namespace csharp.services.scoped.impl
 {
@@ -10,16 +11,21 @@ namespace csharp.services.scoped.impl
     {
         private readonly IFileService _fileService;
         private readonly IPdfService _pdfService;
+        private readonly ILogger<InvoiceService> _logger;
 
-        public InvoiceService(IFileService fileService, IPdfService pdfService)
+        public InvoiceService(IFileService fileService, IPdfService pdfService, ILogger<InvoiceService> logger)
         {
             _fileService = fileService;
             _pdfService = pdfService;
+            _logger = logger;
         }
-        
+        /**
+         * Given an event item reconcile invoice PDFs in output directory
+         */
         public Task ReconcileInvoiceEvent(string outputDirectory, Event item)
         {
             var fileName = Path.Join(outputDirectory, $"{item.Id}.pdf");
+            // act based on event type
             return item.Type switch
             {
                 EventType.InvoiceDeleted => DeleteInvoiceIfExists(item, fileName),
@@ -31,15 +37,21 @@ namespace csharp.services.scoped.impl
         {
             // remove any existing invoice (update means override file so same as create)
             _fileService.DeleteFileIfExists(fileName);
-            var invoiceHtml = GetInvoiceContent(item);
+            
+            // create html for the invoice and write to disk
+            var invoiceHtml = GenerateInvoiceContent(item);
             _pdfService.WritePdf(invoiceHtml, fileName);
-            Console.WriteLine($"Wrote PDF for {item.Id} to {fileName}");
+            _logger.LogInformation($"Wrote PDF for {item.Id} to {fileName}");
+            
             return Task.CompletedTask;
         }
 
-        private string GetInvoiceContent(Event item)
+        /**
+         * Generate HTML for an invoice PDF from a given event
+         */
+        private string GenerateInvoiceContent(Event item)
         {
-            // TODO would use templated razor pages for real project
+            // In real project would use templated razor pages for more maintainable and flexible content
             var title = $"Invoice {item.Id}";
             return $"<html><head><title>{title}</title></head><body><h1>{title}</h1></body></html>";
         }
@@ -47,9 +59,15 @@ namespace csharp.services.scoped.impl
 
         private Task DeleteInvoiceIfExists(Event item, string fileName)
         {
-            Console.WriteLine(_fileService.DeleteFileIfExists(fileName)
-                ? $"Invoice deleted {item.Id}"
-                : $"Invoice doesn't exist to delete {item.Id}");
+            // Delete an invoice if it exists
+            if (_fileService.DeleteFileIfExists(fileName))
+            {
+                _logger.LogInformation($"Invoice deleted {item.Id}");
+            }
+            else
+            {
+                 _logger.LogWarning($"Invoice doesn't exist to delete {item.Id}");
+            }
             return Task.CompletedTask;
         }
     }

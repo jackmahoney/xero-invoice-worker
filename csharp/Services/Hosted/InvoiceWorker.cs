@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using csharp.services.scoped;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace csharp.services.hosted
 {
@@ -11,12 +12,14 @@ namespace csharp.services.hosted
         private readonly Options _options;
         private readonly IRunner _runner;
         private readonly IFileService _fileService;
+        private readonly ILogger<InvoiceWorker> _logger;
 
-        public InvoiceWorker(Options options, IRunner runner, IFileService fileService)
+        public InvoiceWorker(Options options, IRunner runner, IFileService fileService, ILogger<InvoiceWorker> logger)
         {
             _options = options;
             _runner = runner;
             _fileService = fileService;
+            _logger = logger;
         }
 
         public Task StartAsync(CancellationToken cancellationToken = new())
@@ -28,13 +31,15 @@ namespace csharp.services.hosted
             // start long running task to process invoice event feed
             return Task.Factory.StartNew(async () =>
             {
-                Console.WriteLine("Starting long running poll");
+                // use an optional passed event id to start at or start from null
+                var lastId = _options.AfterEventId;
+                _logger.LogInformation("Starting long running poll");
                 while (true)
                 {
-                    Console.WriteLine("Running process");
+                    _logger.LogInformation("Running process");
                     cancellationToken.ThrowIfCancellationRequested();
-                    // run invoice worker process
-                    await _runner.Process(_options.FeedUrl, _options.InvoiceDirectory);
+                    // run invoice worker process and set the lastId to the ID returned
+                    lastId = await _runner.Process(_options.FeedUrl, _options.InvoiceDirectory, _options.PageSize, lastId);
                     // wait before polling again
                     Thread.Sleep(_options.RetryTimeout);
                 }
@@ -53,12 +58,12 @@ namespace csharp.services.hosted
                 $"output = {_options.InvoiceDirectory}",
                 "-------------------------\n",
             };
-            Console.Write(string.Join(Environment.NewLine, banner));
+            _logger.LogInformation(string.Join(Environment.NewLine, banner));
         }
 
         public Task StopAsync(CancellationToken cancellationToken = new())
         {
-            throw new NotImplementedException();
+            return Task.Run(() => _logger.LogInformation("Cancelling invoice worker"), cancellationToken);
         }
     }
 }

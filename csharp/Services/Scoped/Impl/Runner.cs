@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using csharp.models;
+using Microsoft.Extensions.Logging;
 
 namespace csharp.services.scoped.impl
 {
@@ -10,39 +10,48 @@ namespace csharp.services.scoped.impl
         private readonly IRequestService _requestService;
         private readonly IEventStoreService _eventStoreService;
         private readonly IInvoiceService _invoiceService;
+        private readonly ILogger<Runner> _logger;
 
-        public Runner(IRequestService requestService, IEventStoreService eventStoreService, IInvoiceService invoiceService)
+        public Runner(IRequestService requestService, IEventStoreService eventStoreService, IInvoiceService invoiceService, ILogger<Runner> logger)
         {
             _requestService = requestService;
             _eventStoreService = eventStoreService;
             _invoiceService = invoiceService;
+            _logger = logger;
         }
 
-        public async Task<int?> Process(Uri inputUrl, string outputDir, int? lastId)
+        public async Task<int?> Process(Uri inputUrl, string outputDir, int pageSize, int? lastId)
         {
-            Console.WriteLine($"Polling {inputUrl}");
+            _logger.LogInformation($"Polling event feed");
             try
             {
                 // call the feed url and deserialize event response
-                var eventsResponse = await _requestService.GetEvents(inputUrl, 10, lastId);
+                var eventsResponse = await _requestService.GetEvents(inputUrl, pageSize, lastId);
+                
+                
+                _logger.LogInformation(eventsResponse.ToString());
                 var items = eventsResponse.Items;
-                Console.WriteLine($"Received {items.Count} events");
+                _logger.LogInformation($"Received {items.Count} events");
                 
                 // filter out seen events to leave only new events
                 var newItems = await _eventStoreService.SelectNewEvents(eventsResponse.Items);
-                Console.WriteLine($"New count {newItems.Count}");
+                _logger.LogInformation($"New count {newItems.Count}");
                 
                 // reconcile events with filesystem
                 await Task.WhenAll(newItems.Select(item => _invoiceService.ReconcileInvoiceEvent(outputDir, item)).ToList());
 
                 // persist processed events
                 var inserted = await _eventStoreService.PersistProcessedEvents(newItems);
-                Console.WriteLine($"Persisted {inserted} records");
+                _logger.LogInformation($"Persisted {inserted.Count} records");
                 
+                // return id of last processed
+                // here we assume feed url returns results ordered by ascending ID
+                return inserted.LastOrDefault()?.Id;
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine(e);
+                _logger.LogError($"Processing exception: {e}");
+                return null;
             }
         }
     }

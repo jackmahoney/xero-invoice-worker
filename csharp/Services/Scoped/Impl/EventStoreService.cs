@@ -35,13 +35,15 @@ namespace csharp.services.scoped.impl
 
         /**
          * Save processed events as event records to prevent future processing
+         * Assumes passed events do not have records already matching their IDs (so filter before call)
          */
-        public async Task<int> PersistProcessedEvents(List<Event> events)
+        public async Task<List<EventRecord>> PersistProcessedEvents(List<Event> events)
         {
-            // TODO hash the event using SHA for extra id
+            // create new record for each event
             var records = events.Select(e => new EventRecord{Id = e.Id, Hash = $"{e.Id}{e.Type}", CreatedAt = DateTime.Now}).ToList();
             await _context.EventRecords.AddRangeAsync(records);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return records;
         }
     }
 }
