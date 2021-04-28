@@ -1,4 +1,19 @@
-build:
-	cd schemas && $(MAKE) build && cd -;
-	cd nodejs && $(MAKE) build && cd -;
-	cd csharp && $(MAKE) build && cd -;
+.PHONY: test
+
+setup:
+	@echo "Ready."
+
+test:
+	cd test && $(MAKE) test
+
+clean:
+	cd application && $(MAKE) clean
+
+mock:
+	cd mock-server && $(MAKE) run
+	
+spawn_mock:
+	cd mock-server && $(MAKE) start
+
+run:
+	cd application && $(MAKE) run 

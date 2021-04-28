@@ -38,8 +38,13 @@ namespace csharp.services.hosted
                 {
                     _logger.LogInformation("Running process");
                     cancellationToken.ThrowIfCancellationRequested();
-                    // run invoice worker process and set the lastId to the ID returned
-                    lastId = await _runner.Process(_options.FeedUrl, _options.InvoiceDirectory, _options.PageSize, lastId);
+                    // run invoice worker process 
+                    var newId = await _runner.Process(_options.FeedUrl, _options.InvoiceDirectory, _options.PageSize, lastId);
+                    // set the lastId to the ID returned if follow enabled
+                    if (_options.Follow)
+                    {
+                        lastId = newId;
+                    }
                     // wait before polling again
                     Thread.Sleep(_options.RetryTimeout);
                 }

@@ -5,6 +5,7 @@
 // override event type or response mode with environment variables
 const mode = process.env.MODE === 'increment' ? 'increment' : 'random';
 const type = process.env.TYPE ?? 'INVOICE_CREATED';
+const maxId = 100;
 
 import express from 'express';
 const app = express()
@@ -16,7 +17,10 @@ export function getPayload(pageSize, afterEventId) {
     let items = [];
     for(let i = 0; i < page; i++) {
         // if increment mode make ids sequential else random
-        const id = mode === 'increment' ? (after + i) : randomId()
+        const id = mode === 'increment' ? (after + i + 1) : randomId()
+        if (id >= maxId) {
+            break;
+        }
         const invoiceId = `invoice-${id}`
         const utc = new Date().toISOString()
         // content depends on event type

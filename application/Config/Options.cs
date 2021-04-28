@@ -15,5 +15,7 @@ namespace csharp
              public int PageSize { get; set; }
              [Option('a', "after-event-id", Required = false, Default = null, HelpText = "Event ID to start after. Useful for resuming a process.")]
              public long? AfterEventId { get; set; }
+             [Option('f', "follow", Required = false, Default = false, HelpText = "To paginate through paged results and increment the after event ID.")]
+             public bool Follow { get; set; }
          }
 }
