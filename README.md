@@ -1,19 +1,29 @@
 # Invoice worker technical exercise - Jack Mahoney
 
-## Goal
-- Consume event feed and produce PDF invoices
-- Poll HTTP endpoint
-- Store state and resume
-- Exit 0 on ctrl-c SIGINT
-- Console applications with argument flags
+A repository containing the technical exercise results by Jack Mahoney.
+Please see comments in the code and explanations inside PLANNING and ARCHITECTURE for more information.
 
-### Input
-- URL to JSON event feed 
-- Configuration flags `--feed-url|--invoice-dir`
+## Structure
+Three projects in one. See root Makefile or README in each folder.
 
-### Output
-- Create, update, or delete a PDF for each invoice found in the event feed
-- Action depends on the event type `INVOICE_CREATED|INVOICE_UPDATED|INVOICE_DELETE`
+- `application`: DotNET Core console application
+- `test`: xUnit tests in C#
+- `mock-server`: NodeJS demo endpoint serving events
 
-### Testing
-Should continue on errors, new event types, malformed events but log 
+- [PLANNING.md](./PLANNING.md): establish task 
+- [ARCHITECTURE.md](./ARCHITECTURE.md) discuss design decisions
+
+## Run
+See `Makefile` or run dotnet with arguments passed.
+
+```
+cd application && dotnet run -- --input-url='' --invoice-dir=''
+```
+
+## Mock server
+There is a mock server provided you run the app against:
+
+```
+make spawn_mock 
+make run
+```
