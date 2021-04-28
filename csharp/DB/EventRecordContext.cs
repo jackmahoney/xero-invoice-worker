@@ -6,9 +6,11 @@ namespace csharp.db
 {
     public class EventRecordContext: DbContext
     {
+        
+        public DbSet<EventRecord> EventRecords { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Filename=events.db", options =>
+            optionsBuilder.UseSqlite("Filename=.events.db", options =>
             {
                 options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
             });

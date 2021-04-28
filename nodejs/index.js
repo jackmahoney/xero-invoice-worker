@@ -6,8 +6,8 @@ function getPayload() {
     return {
         items: [
             {
-                id: 1,
-                type: "INVOICE_DELETED",
+                id: 2,
+                type: "INVOICE_CREATED",
                 content: {
                     invoiceId: "123"
                 },

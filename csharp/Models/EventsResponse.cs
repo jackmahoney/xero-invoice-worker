@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 namespace csharp.models
 {
-    internal enum InvoiceStatus
+    public enum InvoiceStatus
     {
         [EnumMember(Value = "DRAFT")]
         Draft,
@@ -26,23 +27,28 @@ namespace csharp.models
         InvoiceDeleted
     }
 
-    internal class LineItem
+    public class LineItem
     {
-        public string lineItemId { get; set; }
-        public string description { get; set; }
-        public decimal quantity { get; set; }
-        public decimal unitCost { get; set; }
-        public decimal lineItemTotalCost { get; set; }
+        [JsonPropertyName("lineItemId")]
+        public string LineItemId { get; set; }
+        [JsonPropertyName("description")]
+        public string Description { get; set; }
+        [JsonPropertyName("quantity")]
+        public decimal Quantity { get; set; }
+        [JsonPropertyName("unitCost")]
+        public decimal UnitCost { get; set; }
+        [JsonPropertyName("lineItemTotalCost")]
+        public decimal LineItemTotalCost { get; set; }
     }
 
-    internal class InvoiceCreatedOrUpdatedEventContent
+    public class InvoiceCreatedOrUpdatedEventContent
     {
         [JsonPropertyName("invoiceId")]
         public string InvoiceId { get; set; }
         [JsonPropertyName("invoiceNumber")]
         public string InvoiceNumber { get; set; }
         [JsonPropertyName("lineItems")]
-        public LineItem[] LineItems { get; set; }
+        public List<LineItem> LineItems { get; set; }
         [JsonPropertyName("status")]
         public InvoiceStatus Status { get; set; }
         [JsonPropertyName("dueDateUtc")]
@@ -53,7 +59,7 @@ namespace csharp.models
         public DateTime UpdatedDateUtc { get; set; }
     }
 
-    internal class InvoiceDeletedEventContent
+    public class InvoiceDeletedEventContent
     {
         [JsonPropertyName("invoiceId")]
         public string InvoiceId { get; set; }
@@ -66,11 +72,13 @@ namespace csharp.models
         public EventType Type { get; set; }
         [JsonPropertyName("createdDateUtc")]
         public DateTime CreatedDateUtc { get; set; }
-        public object content;
+        [JsonPropertyName("content")]
+        public object Content;
     }
 
     public class EventsResponse
     {
-        [JsonPropertyName("items")] public Event[] Items { get; set; }
+        [JsonPropertyName("items")]
+        public List<Event> Items { get; set; }
     }
 }

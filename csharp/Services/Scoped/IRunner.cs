@@ -6,6 +6,6 @@ namespace csharp.services.scoped
 {
     public interface IRunner
     {
-        public Task Process(Uri inputUrl, string outputDir);
+        public Task<int?> Process(Uri inputUrl, string outputDir, int? lastId);
     }
 }

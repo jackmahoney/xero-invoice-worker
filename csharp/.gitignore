@@ -1,6 +1,6 @@
 .idea
 bin
-events.sql
+.events.db
 obj
 generated
 out

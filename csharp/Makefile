@@ -10,6 +10,7 @@ $(out):
 	mkdir -p $(out)
 
 $(deps):
+	dotnet tool install --global dotnet-ef
 	dotnet restore
 
 
