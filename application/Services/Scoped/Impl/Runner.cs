@@ -20,7 +20,7 @@ namespace csharp.services.scoped.impl
             _logger = logger;
         }
 
-        public async Task<int?> Process(Uri inputUrl, string outputDir, int pageSize, int? lastId)
+        public async Task<long?> Process(Uri inputUrl, string outputDir, int pageSize, long? lastId)
         {
             _logger.LogInformation($"Polling event feed");
             try
@@ -46,7 +46,7 @@ namespace csharp.services.scoped.impl
                 
                 // return id of last processed
                 // here we assume feed url returns results ordered by ascending ID
-                return inserted.LastOrDefault()?.Id;
+                return items.Select(i => i.Id).LastOrDefault();
             }
             catch (Exception e)
             {

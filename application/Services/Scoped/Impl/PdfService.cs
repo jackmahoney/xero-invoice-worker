@@ -16,12 +16,8 @@ namespace csharp.services.scoped.impl
 
         public void WritePdf(string html, string path)
         {
-            // generate a pdf
-            _logger.LogInformation("Generate PDF");
+            // generate a pdf and save
             var pdf = PdfGenerator.GeneratePdf(html, PageSize.A4);
-         
-            // write the file
-            _logger.LogInformation($"Save PDF to {path}");
             pdf.Save(path);
         }
     }

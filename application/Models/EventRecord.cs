@@ -5,11 +5,12 @@ using Microsoft.EntityFrameworkCore;
 namespace csharp.models
 {
     
-    [Index(nameof(Hash))]
+    [Index(nameof(Hash), nameof(EventId))]
     public class EventRecord
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
+        public long EventId { get; set; }
         public string Hash { get; set; }
         public DateTime CreatedAt{ get; set; }
     }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -20,7 +19,7 @@ namespace csharp.services.scoped.impl
             _logger = logger;
         }
         
-        public async Task<EventsResponse> GetEvents(Uri url, int pageSize, int? sinceId)
+        public async Task<EventsResponse> GetEvents(Uri url, int pageSize, long? sinceId)
         {
             // create request parameters 
             var parts = new List<string> {$"pageSize={pageSize}"};
@@ -33,7 +32,6 @@ namespace csharp.services.scoped.impl
             var response = await _httpClient.GetStringAsync(baseUri.ToString());
 
             // deserialize
-            _logger.LogInformation(response);
             return JsonSerializer.Deserialize<EventsResponse>(response);
         }
     }

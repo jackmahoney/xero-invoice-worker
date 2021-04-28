@@ -5,7 +5,6 @@ using System.Text.Json.Serialization;
 
 namespace csharp.models
 {
-    [DataContract]
     public enum InvoiceStatus
     {
         [EnumMember(Value = "DRAFT")]
@@ -18,18 +17,13 @@ namespace csharp.models
         Deleted
     }
 
-    [DataContract]
     public enum EventType
     {
-        [EnumMember(Value = "INVOICE_CREATED")]
-        InvoiceCreated,
-        [EnumMember(Value = "INVOICE_UPDATED")]
-        InvoiceUpdated,
-        [EnumMember(Value = "INVOICE_DELETED")]
-        InvoiceDeleted
+        INVOICE_CREATED,
+        INVOICE_UPDATED,
+        INVOICE_DELETED
     }
 
-    [DataContract]
     public class LineItem
     {
         [JsonPropertyName("lineItemId")]
@@ -44,7 +38,6 @@ namespace csharp.models
         public decimal LineItemTotalCost { get; set; }
     }
 
-    [DataContract]
     public class InvoiceCreatedOrUpdatedEventContent
     {
         [JsonPropertyName("invoiceId")]
@@ -64,17 +57,15 @@ namespace csharp.models
         public DateTime UpdatedDateUtc { get; set; }
     }
 
-    [DataContract]
     public class InvoiceDeletedEventContent
     {
         [JsonPropertyName("invoiceId")]
         public string InvoiceId { get; set; }
     }
-    [DataContract]
     public class Event
     {
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
         [JsonPropertyName("type")] 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public EventType Type { get; set; }
@@ -84,7 +75,6 @@ namespace csharp.models
         public object Content;
     }
 
-    [DataContract]
     public class EventsResponse
     {
         [JsonPropertyName("items")]

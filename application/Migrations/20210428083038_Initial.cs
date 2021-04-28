@@ -11,8 +11,9 @@ namespace csharp.Migrations
                 name: "Events",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    EventId = table.Column<long>(type: "INTEGER", nullable: false),
                     Hash = table.Column<string>(type: "TEXT", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -22,9 +23,9 @@ namespace csharp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Events_Hash",
+                name: "IX_Events_Hash_EventId",
                 table: "Events",
-                column: "Hash");
+                columns: new[] { "Hash", "EventId" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

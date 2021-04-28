@@ -9,7 +9,7 @@ using csharp.db;
 namespace csharp.Migrations
 {
     [DbContext(typeof(EventRecordContext))]
-    [Migration("20210427234200_Initial")]
+    [Migration("20210428083038_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,19 +20,22 @@ namespace csharp.Migrations
 
             modelBuilder.Entity("csharp.models.EventRecord", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("EventId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Hash")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Hash");
+                    b.HasIndex("Hash", "EventId");
 
                     b.ToTable("Events");
                 });

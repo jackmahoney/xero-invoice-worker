@@ -8,6 +8,6 @@ namespace csharp.services.scoped
     public interface IRequestService
     {
 
-        public Task<EventsResponse> GetEvents(Uri url, int pageSize, int? sinceId);
+        public Task<EventsResponse> GetEvents(Uri url, int pageSize, long? sinceId);
     }
 }

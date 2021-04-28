@@ -18,19 +18,22 @@ namespace csharp.Migrations
 
             modelBuilder.Entity("csharp.models.EventRecord", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("EventId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Hash")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Hash");
+                    b.HasIndex("Hash", "EventId");
 
                     b.ToTable("Events");
                 });

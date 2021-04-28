@@ -14,6 +14,6 @@ namespace csharp
              [Option('p', "page-size", Required = false, Default = 10, HelpText = "Number of items to fetch each request to feed url.")]
              public int PageSize { get; set; }
              [Option('a', "after-event-id", Required = false, Default = null, HelpText = "Event ID to start after. Useful for resuming a process.")]
-             public int? AfterEventId { get; set; }
+             public long? AfterEventId { get; set; }
          }
 }

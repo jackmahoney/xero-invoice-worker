@@ -1,8 +1,6 @@
-using System;
 using System.IO;
 using System.Threading.Tasks;
 using csharp.models;
-using Microsoft.AspNetCore.Html;
 using Microsoft.Extensions.Logging;
 
 namespace csharp.services.scoped.impl
@@ -28,7 +26,7 @@ namespace csharp.services.scoped.impl
             // act based on event type
             return item.Type switch
             {
-                EventType.InvoiceDeleted => DeleteInvoiceIfExists(item, fileName),
+                EventType.INVOICE_DELETED => DeleteInvoiceIfExists(item, fileName),
                 _ => CreateOrUpdateInvoice(item, fileName),
             };
         }

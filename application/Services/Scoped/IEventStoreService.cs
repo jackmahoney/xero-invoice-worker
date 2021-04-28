@@ -16,8 +16,8 @@ namespace csharp.services.scoped
          */
         public Task<List<Event>> SelectNewEvents(List<Event> events);
         /**
-         * Create and persist collection of EventRecords for each event
+         * Create and persist collection of EventRecords for each event and return list of record ids
          */
-        public Task<List<EventRecord>> PersistProcessedEvents(List<Event> events);
+        public Task<List<long>> PersistProcessedEvents(List<Event> events);
     }
 }

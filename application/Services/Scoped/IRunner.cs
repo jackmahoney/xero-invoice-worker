@@ -12,6 +12,6 @@ namespace csharp.services.scoped
          * process new events and save or delete a PDF file depending on the event type
          * Returns ID of last processed event (assumes event feed is ordered by ascending ID)
          */
-        public Task<int?> Process(Uri inputUrl, string outputDir, int pageSize, int? lastId);
+        public Task<long?> Process(Uri inputUrl, string outputDir, int pageSize, long? lastId);
     }
 }
