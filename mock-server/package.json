@@ -5,13 +5,22 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "fmt": "prettier -w *.js"
   },
-  "engines" : { "node" : ">=14.0.0" },
+  "jest": {
+    "transform": {
+      
+    }
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "author": "Jack Mahoney",
   "license": "ISC",
   "devDependencies": {
-    "jest": "^26.6.3"
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1"
   },
   "dependencies": {
     "express": "^4.17.1"
