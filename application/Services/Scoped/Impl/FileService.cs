@@ -1,6 +1,7 @@
 using System.IO;
+using Application.Services.Scoped;
 
-namespace csharp.services.scoped.impl
+namespace Application.Services.Scoped.Impl
 {
     public class FileService: IFileService
     {

@@ -1,8 +1,8 @@
 using System.Reflection;
-using csharp.models;
+using Application.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace csharp.db
+namespace Application.db
 {
     public class EventRecordContext: DbContext
     {

@@ -1,20 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
-namespace csharp.models
+namespace Application.Models
 {
     public enum InvoiceStatus
     {
-        [EnumMember(Value = "DRAFT")]
-        Draft,
-        [EnumMember(Value = "SENT")]
-        Sent,
-        [EnumMember(Value = "PAID")]
-        Paid,
-        [EnumMember(Value = "DELETED")]
-        Deleted
+        DRAFT,
+        SENT,
+        PAID,
+        DELETED
     }
 
     public enum EventType
@@ -38,30 +35,33 @@ namespace csharp.models
         public decimal LineItemTotalCost { get; set; }
     }
 
-    public class InvoiceCreatedOrUpdatedEventContent
+    /**
+     * API returns events that have different content depending on their type. This means the content has nullabe properties for those not shared for all events.
+     * In production would ask endpoint owner if they can add a type filter param so we can deserialize event content into separate classes to avoid this nullable properties issue
+     * Or use Newtonsoft instead of Json.Text deserializer
+     */
+    #nullable enable
+    [DataContract]
+    public class EventContent
     {
         [JsonPropertyName("invoiceId")]
         public string InvoiceId { get; set; }
         [JsonPropertyName("invoiceNumber")]
-        public string InvoiceNumber { get; set; }
+        public string? InvoiceNumber { get; set; }
         [JsonPropertyName("lineItems")]
-        public List<LineItem> LineItems { get; set; }
+        public List<LineItem>? LineItems { get; set; }
         [JsonPropertyName("status")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public InvoiceStatus Status { get; set; }
+        public InvoiceStatus? Status { get; set; }
         [JsonPropertyName("dueDateUtc")]
-        public DateTime DueDateUtc { get; set; }
+        public DateTime? DueDateUtc { get; set; }
         [JsonPropertyName("createdDateUtc")]
-        public DateTime CreatedDateUtc { get; set; }
+        public DateTime? CreatedDateUtc { get; set; }
         [JsonPropertyName("updatedDateUtc")]
-        public DateTime UpdatedDateUtc { get; set; }
+        public DateTime? UpdatedDateUtc { get; set; }
     }
 
-    public class InvoiceDeletedEventContent
-    {
-        [JsonPropertyName("invoiceId")]
-        public string InvoiceId { get; set; }
-    }
+    [DataContract]
     public class Event
     {
         [JsonPropertyName("id")]
@@ -72,9 +72,10 @@ namespace csharp.models
         [JsonPropertyName("createdDateUtc")]
         public DateTime CreatedDateUtc { get; set; }
         [JsonPropertyName("content")]
-        public object Content;
+        public EventContent Content { get; set; }
     }
 
+    [DataContract]
     public class EventsResponse
     {
         [JsonPropertyName("items")]

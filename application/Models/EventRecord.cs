@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
-namespace csharp.models
+namespace Application.Models
 {
     
     [Index(nameof(Hash), nameof(EventId))]

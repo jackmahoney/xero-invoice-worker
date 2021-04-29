@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace csharp.models
+namespace Application.Models
 {
         public record EventVerdict(List<Event> Ignore, List<Event> Persist);
 }

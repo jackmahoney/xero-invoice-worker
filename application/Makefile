@@ -19,4 +19,7 @@ clean:
 	
 test: $(deps) $(out)
 	dotnet test
+	
+build: $(deps) $(out)
+	dotnet publish -c Release -o $(out)
 

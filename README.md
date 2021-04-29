@@ -17,7 +17,19 @@ Three projects in one. See root Makefile or README in each folder.
 See `Makefile` or run dotnet with arguments passed.
 
 ```
-cd application && dotnet run -- --input-url='' --invoice-dir=''
+cd application 
+dotnet run -- --input-url='' --invoice-dir=''
+```
+
+## Build
+
+## Deploy
+Deploy using CircleCI by building docker image and pushing to a repository.
+
+Build docker image:
+
+```
+make build
 ```
 
 ## Mock server

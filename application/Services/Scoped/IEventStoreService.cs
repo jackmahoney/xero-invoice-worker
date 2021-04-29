@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using csharp.models;
+using Application.Models;
 
-namespace csharp.services.scoped
+namespace Application.Services.Scoped
 {
     /**
      * Service for storing a representation of event data to signify that an event has been processed

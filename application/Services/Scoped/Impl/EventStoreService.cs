@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using csharp.db;
-using csharp.models;
+using Application.db;
+using Application.Models;
+using Application.Services.Scoped;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace csharp.services.scoped.impl
+namespace Application.Services.Scoped.Impl
 {
     /**
      * Filter event items against database of processed records

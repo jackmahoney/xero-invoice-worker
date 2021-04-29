@@ -1,9 +1,10 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Services.Scoped;
 using Microsoft.Extensions.Logging;
 
-namespace csharp.services.scoped.impl
+namespace Application.Services.Scoped.Impl
 {
     public class Runner : IRunner
     {

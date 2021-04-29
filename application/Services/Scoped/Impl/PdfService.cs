@@ -1,8 +1,9 @@
+using Application.Services.Scoped;
 using Microsoft.Extensions.Logging;
 using PdfSharpCore;
 using VetCV.HtmlRendererCore.PdfSharpCore;
 
-namespace csharp.services.scoped.impl
+namespace Application.Services.Scoped.Impl
 {
     public class PdfService: IPdfService
     {

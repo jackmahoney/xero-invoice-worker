@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace csharp.services.scoped
+namespace Application.Services.Scoped
 {
     public interface IRunner
     {

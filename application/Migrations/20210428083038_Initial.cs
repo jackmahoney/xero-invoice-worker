@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace csharp.Migrations
+namespace Application.Migrations
 {
     public partial class Initial : Migration
     {

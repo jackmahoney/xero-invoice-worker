@@ -1,9 +1,9 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using csharp.models;
+using Application.Models;
 
-namespace csharp.services.scoped
+namespace Application.Services.Scoped
 {
     public interface IRequestService
     {

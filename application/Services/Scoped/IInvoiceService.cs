@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
-using csharp.models;
+using Application.Models;
 
-namespace csharp.services.scoped
+namespace Application.Services.Scoped
 {
     public interface IInvoiceService
     {
-        public Task ReconcileInvoiceEvent(string outputDirectory, Event item);
+        public Task<string> ReconcileInvoiceEvent(string outputDirectory, Event item);
     }
 }

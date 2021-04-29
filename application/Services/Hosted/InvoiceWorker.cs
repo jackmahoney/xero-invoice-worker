@@ -1,11 +1,12 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using csharp.services.scoped;
+using Application.Config;
+using Application.Services.Scoped;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace csharp.services.hosted
+namespace Application.Services.Hosted
 {
     public class InvoiceWorker : IHostedService
     {

@@ -2,7 +2,7 @@
  * A test server for event feed
  */
 import express from "express";
-import { getPayload } from "./lib";
+import { getPayload } from "./lib.js";
 const app = express();
 const port = 3000;
 

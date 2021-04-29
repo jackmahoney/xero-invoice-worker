@@ -1,7 +1,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace csharp.services.scoped
+namespace Application.Services.Scoped
 {
     public interface IFileService
     {

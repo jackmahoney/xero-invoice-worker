@@ -28,6 +28,11 @@ If I were to develop this application for production I would make some changes:
 - Kubernetes deployment and service etc (or whichever method used)
 - CI integration (.circleci/config.yml) for building, testing, deploying
 - Typesafe templating of the PDF (use Razor or similar)
-- Better exception handling
+- Better exception handling 
+- Better long polling using backoff and retry with thread safety
+
+### Testing
+I would add much more test coverage for a real application. I would also add integration testing, continuous integration testing and deployment. Blue green deployments / smoketests etc.
+
 
 > I would also try to work with the team that owned the event feed url and find out more about the constraints. 

@@ -17,3 +17,6 @@ spawn_mock:
 
 run:
 	cd application && $(MAKE) run 
+
+build:
+	docker build -t application .

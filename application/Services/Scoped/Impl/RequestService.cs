@@ -1,21 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using csharp.models;
+using Application.Models;
+using Application.Services.Scoped;
 using Microsoft.Extensions.Logging;
 
-namespace csharp.services.scoped.impl
+namespace Application.Services.Scoped.Impl
 {
     public class RequestService : IRequestService
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpService _httpService;
         private readonly ILogger<RequestService> _logger;
 
-        public RequestService(HttpClient httpClient, ILogger<RequestService> logger)
+        public RequestService(IHttpService httpService, ILogger<RequestService> logger)
         {
-            _httpClient = httpClient;
+            _httpService = httpService;
             _logger = logger;
         }
         
@@ -29,10 +29,13 @@ namespace csharp.services.scoped.impl
 
             // call url
             _logger.LogInformation($"Calling {baseUri}");
-            var response = await _httpClient.GetStringAsync(baseUri.ToString());
+            var response = await _httpService.GetStringAsync(baseUri.ToString());
 
             // deserialize
-            return JsonSerializer.Deserialize<EventsResponse>(response);
+            return JsonSerializer.Deserialize<EventsResponse>(response, new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            });
         }
     }
 }

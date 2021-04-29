@@ -1,7 +1,7 @@
 using System;
 using CommandLine;
 
-namespace csharp
+namespace Application.Config
 {
     public class Options
          {

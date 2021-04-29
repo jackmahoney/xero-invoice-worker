@@ -1,6 +1,6 @@
 using System;
 
-namespace csharp.services.scoped
+namespace Application.Services.Scoped
 {
     public interface IPdfService
     {
