@@ -28,10 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\application\obj\Debug\net5.0\application.dll</HintPath>
     </Reference>

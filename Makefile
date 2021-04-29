@@ -1,7 +1,10 @@
+#
+# Application makefile - see makefiles in other folders too
+#
 .PHONY: test
 
 setup:
-	@echo "Ready."
+	cd application && $(MAKE) build
 
 test:
 	cd test && $(MAKE) test
