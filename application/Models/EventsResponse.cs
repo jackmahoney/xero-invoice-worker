@@ -40,7 +40,7 @@ namespace Application.Models
      * In production would ask endpoint owner if they can add a type filter param so we can deserialize event content into separate classes to avoid this nullable properties issue
      * Or use Newtonsoft instead of Json.Text deserializer
      */
-    #nullable enable
+#nullable enable
     [DataContract]
     public class EventContent
     {
@@ -66,7 +66,7 @@ namespace Application.Models
     {
         [JsonPropertyName("id")]
         public long Id { get; set; }
-        [JsonPropertyName("type")] 
+        [JsonPropertyName("type")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public EventType Type { get; set; }
         [JsonPropertyName("createdDateUtc")]

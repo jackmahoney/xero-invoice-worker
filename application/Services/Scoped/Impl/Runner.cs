@@ -28,23 +28,23 @@ namespace Application.Services.Scoped.Impl
             {
                 // call the feed url and deserialize event response
                 var eventsResponse = await _requestService.GetEvents(inputUrl, pageSize, lastId);
-                
-                
+
+
                 _logger.LogInformation(eventsResponse.ToString());
                 var items = eventsResponse.Items;
                 _logger.LogInformation($"Received {items.Count} events");
-                
+
                 // filter out seen events to leave only new events
                 var newItems = await _eventStoreService.SelectNewEvents(eventsResponse.Items);
                 _logger.LogInformation($"New count {newItems.Count}");
-                
+
                 // reconcile events with filesystem
                 await Task.WhenAll(newItems.Select(item => _invoiceService.ReconcileInvoiceEvent(outputDir, item)).ToList());
 
                 // persist processed events
                 var inserted = await _eventStoreService.PersistProcessedEvents(newItems);
                 _logger.LogInformation($"Persisted {inserted.Count} records");
-                
+
                 // return id of last processed
                 // here we assume feed url returns results ordered by ascending ID
                 return items.Select(i => i.Id).LastOrDefault();

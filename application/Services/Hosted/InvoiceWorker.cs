@@ -49,14 +49,14 @@ namespace Application.Services.Hosted
                     // wait before polling again
                     Thread.Sleep(_options.RetryTimeout);
                 }
-            }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Default);  
+            }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
-        
+
 
         private void PrintBanner()
         {
             // log config at startup 
-            var banner = new []
+            var banner = new[]
             {
                 "-------------------------",
                 "Starting InvoiceWorker:",

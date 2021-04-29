@@ -4,7 +4,7 @@ using Application.Services.Scoped;
 
 namespace Application.Services.Scoped.Impl
 {
-    public class TemplatingService: ITemplatingService
+    public class TemplatingService : ITemplatingService
     {
 
         public string GenerateInvoiceContent(EventContent item)

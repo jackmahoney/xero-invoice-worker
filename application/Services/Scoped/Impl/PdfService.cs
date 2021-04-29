@@ -5,7 +5,7 @@ using VetCV.HtmlRendererCore.PdfSharpCore;
 
 namespace Application.Services.Scoped.Impl
 {
-    public class PdfService: IPdfService
+    public class PdfService : IPdfService
     {
 
         private readonly ILogger<PdfService> _logger;

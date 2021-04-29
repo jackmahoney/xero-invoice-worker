@@ -5,10 +5,15 @@ out=out
 
 $(deps):
 	dotnet tool install --global dotnet-ef
+	dotnet tool install -g dotnet-format
 	dotnet restore
 
 $(out):
 	mkdir -p $(out)
+
+fmt:
+	dotnet-format .
+
 
 run: $(deps) $(out)
 	dotnet run -- --feed-url=$(FEED_URL) --invoice-dir=$(out) --follow

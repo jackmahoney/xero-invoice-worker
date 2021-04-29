@@ -6,7 +6,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Services.Scoped.Impl
 {
-    public class InvoiceService: IInvoiceService
+    /**
+     * Service for reconciling event items with invoice PDFs
+     * Either delete or write
+     */
+    public class InvoiceService : IInvoiceService
     {
         private readonly IFileService _fileService;
         private readonly IPdfService _pdfService;
@@ -38,12 +42,12 @@ namespace Application.Services.Scoped.Impl
         {
             // remove any existing invoice (update means override file so same as create)
             _fileService.DeleteFileIfExists(fileName);
-            
+
             // create html for the invoice and write to disk
             var invoiceHtml = _templatingService.GenerateInvoiceContent(item.Content);
             _pdfService.WritePdf(invoiceHtml, fileName);
             _logger.LogInformation($"Wrote PDF for {item.Id} to {fileName}");
-            
+
             return Task.FromResult(fileName);
         }
 
@@ -56,7 +60,7 @@ namespace Application.Services.Scoped.Impl
             }
             else
             {
-                 _logger.LogWarning($"Invoice doesn't exist to delete {item.Id}");
+                _logger.LogWarning($"Invoice doesn't exist to delete {item.Id}");
             }
             return Task.FromResult(fileName);
         }

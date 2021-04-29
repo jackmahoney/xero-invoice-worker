@@ -13,7 +13,7 @@ namespace Application.Services.Scoped.Impl
     /**
      * Filter event items against database of processed records
      */
-    public class EventStoreService: IEventStoreService
+    public class EventStoreService : IEventStoreService
     {
         private readonly EventRecordContext _context;
         private readonly ILogger<EventStoreService> _logger;
@@ -23,7 +23,7 @@ namespace Application.Services.Scoped.Impl
             _context = context;
             _logger = logger;
         }
-        
+
         /**
          * Filter list of event items and remove those that exist in the event record database
          * Assumes that event feed produces events with ID field that denotes identity
@@ -36,7 +36,7 @@ namespace Application.Services.Scoped.Impl
             _logger.LogInformation($"Filter {events.Count} - found {existingRecords.Count} out of {count} event records");
             var existingIds = existingRecords.Select(r => r.EventId);
             var newEvents = events.Where(e => existingIds.Contains(e.Id) == false).ToList();
-            _logger.LogInformation($"{newEvents.Count} new events"); 
+            _logger.LogInformation($"{newEvents.Count} new events");
             return newEvents;
         }
 
@@ -49,7 +49,7 @@ namespace Application.Services.Scoped.Impl
             // create new record for each event
             var records = events.Select(e =>
             {
-                var record = new EventRecord {EventId= e.Id, Hash = $"{e.Id}{e.Type}", CreatedAt = DateTime.Now};
+                var record = new EventRecord { EventId = e.Id, Hash = $"{e.Id}{e.Type}", CreatedAt = DateTime.Now };
                 _logger.LogInformation($"Persisting event id {record.EventId}");
                 return record;
             }).ToList();

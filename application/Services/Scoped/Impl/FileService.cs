@@ -3,9 +3,9 @@ using Application.Services.Scoped;
 
 namespace Application.Services.Scoped.Impl
 {
-    public class FileService: IFileService
+    public class FileService : IFileService
     {
-        
+
         public bool CreateDirectoryIfNotExists(string path)
         {
             if (Directory.Exists(path))

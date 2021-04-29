@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Models
 {
-    
+
     [Index(nameof(Hash), nameof(EventId))]
     public class EventRecord
     {
@@ -12,6 +12,6 @@ namespace Application.Models
         public long Id { get; set; }
         public long EventId { get; set; }
         public string Hash { get; set; }
-        public DateTime CreatedAt{ get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

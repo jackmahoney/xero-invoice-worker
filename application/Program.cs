@@ -36,7 +36,7 @@ namespace Application
                     services.AddDbContext<EventRecordContext>();
                     services.AddHttpClient("http").SetHandlerLifetime(TimeSpan.FromMilliseconds(options.RetryTimeout));
                     services.AddSingleton(options);
-      
+
                     // add scoped services
                     services.AddScoped<IEventStoreService, EventStoreService>();
                     services.AddScoped<IFileService, FileService>();
@@ -48,7 +48,7 @@ namespace Application
                     services.AddScoped<IRunner, Runner>();
                     // add the hosted service that will run process
                     services.AddHostedService<InvoiceWorker>();
-                    
+
                     // if developing for production hosted environment would enable metrics server here for health checks and prometheus etc
                     /*
                     services.AddHealthChecks();
